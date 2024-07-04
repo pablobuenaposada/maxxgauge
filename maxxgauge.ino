@@ -7,6 +7,11 @@
 
 #include <SPI.h>              // Library for using SPI Communication 
 #include <mcp2515.h>          // Library for using CAN Communication (https://github.com/autowp/arduino-mcp2515/)
+#include <WiFi.h>
+#include <ArduinoOTA.h>
+
+const char* ssid = "MaxxGauge";
+const char* password = "password";
 
 #define CS_PIN 5              // Define the SPI CS pin as D5
 //#define INT_PIN 33            // Define the interrupt pin as D21
@@ -33,6 +38,10 @@ void canTask(void *pvParameters) {
 }
 
 void setup() {
+  WiFi.softAP(ssid, password);
+  ArduinoOTA.setHostname(ssid);
+  ArduinoOTA.begin();
+  
   setTouch();
   setScreen();
   Serial.begin(9600);
@@ -51,6 +60,7 @@ void setup() {
 void loop() {
   char valueStr[10];
   while (true) {
+    ArduinoOTA.handle();
     snprintf(valueStr, sizeof(valueStr), pages[currentPage].format, sensorValue);
     printValue(valueStr, pages[currentPage].title, pages[currentPage].fontSize, pages[currentPage].posY);
     if (gestureDetected) {
