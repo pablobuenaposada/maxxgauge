@@ -1,5 +1,6 @@
 #include "touch.h"
 #include "screen.h"
+#include "ota.h"
 #include "data.h"
 //creo que estoy usando vspi
 //pantalla tft_miso:nada tft_mosi:d13 tft_sclk:d14 tft_cs:d4 tft_dc:d32 tft_rst:nada tft_bl:3v touch_sda:d21 touch_scl:d22 touch_int:d25 touch_rst:nada
@@ -7,11 +8,6 @@
 
 #include <SPI.h>              // Library for using SPI Communication 
 #include <mcp2515.h>          // Library for using CAN Communication (https://github.com/autowp/arduino-mcp2515/)
-#include <WiFi.h>
-#include <ArduinoOTA.h>
-
-const char* ssid = "MaxxGauge";
-const char* password = "password";
 
 #define CS_PIN 5              // Define the SPI CS pin as D5
 //#define INT_PIN 33            // Define the interrupt pin as D21
@@ -38,10 +34,7 @@ void canTask(void *pvParameters) {
 }
 
 void setup() {
-  WiFi.softAP(ssid, password);
-  ArduinoOTA.setHostname(ssid);
-  ArduinoOTA.begin();
-  
+  setOTA();
   setTouch();
   setScreen();
   Serial.begin(9600);
