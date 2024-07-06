@@ -1,8 +1,8 @@
 #ifndef OTA_H
 #define OTA_H
 
-#include <WiFi.h>
 #include <ArduinoOTA.h>
+#include <WiFi.h>
 
 void setOTA();
 
