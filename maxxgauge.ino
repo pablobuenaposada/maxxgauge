@@ -32,6 +32,7 @@ void canTask(void *pvParameters) {
                 sensorValue = rawValue * pages[currentPage].canMultiplier;
             }
         }
+        vTaskDelay(1);
     }
 }
 
