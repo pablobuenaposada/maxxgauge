@@ -8,7 +8,7 @@ TFT_eSPI tft = TFT_eSPI();
 OpenFontRender render;
 
 char lastValue[10] = "";
-char lastTitle[10] = "";
+char lastTitle[11] = "";
 
 void setScreen() {
     tft.init();
