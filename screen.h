@@ -7,6 +7,6 @@
 #include "binaryttf.h"
 
 void setScreen();
-void printValue(char *value, char *title, int fontSize, int posY);
+void printValue(char *value, char *title, int fontSize, int posY, bool arrows);
 
 #endif

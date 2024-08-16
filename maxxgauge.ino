@@ -58,7 +58,8 @@ void loop() {
     while (true) {
         ArduinoOTA.handle();
         snprintf(valueStr, sizeof(valueStr), pages[currentPage].format, sensorValue);
-        printValue(valueStr, pages[currentPage].title, pages[currentPage].fontSize, pages[currentPage].posY);
+        printValue(valueStr, pages[currentPage].title, pages[currentPage].fontSize, pages[currentPage].posY,
+                   pages[currentPage].verticalSwipe);
         if (gestureDetected) {
             // check if enough time has passed since last debounce
             if ((millis() - lastDebounceTime) > debounceDelay) {
