@@ -22,8 +22,7 @@ void resetSensor() {
 void setTouch() {
     Wire.begin(TOUCH_SDA_PIN, TOUCH_SCL_PIN);
     pinMode(TOUCH_INT_PIN, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(TOUCH_INT_PIN), handleTouchInterrupt,
-                    FALLING);
+    attachInterrupt(digitalPinToInterrupt(TOUCH_INT_PIN), handleTouchInterrupt, FALLING);
     resetSensor();
 }
 

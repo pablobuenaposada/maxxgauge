@@ -12,8 +12,7 @@
 // #define TFT_BL   21  // Optional backlight control pin
 // #define TFT_BACKLIGHT_ON HIGH // Level to turn ON backlight (HIGH or LOW)
 
-#define SPI_FREQUENCY \
-    27000000  // Change this value if you have trouble with display
+#define SPI_FREQUENCY 27000000  // Change this value if you have trouble with display
 
 #define LOAD_FONT2
 #define LOAD_FONT7

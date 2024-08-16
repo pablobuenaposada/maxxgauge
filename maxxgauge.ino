@@ -26,8 +26,7 @@ void canTask(void *pvParameters) {
             if (canMsg.can_id == pages[currentPage].canId) {
                 int rawValue = 0;
                 for (int i = 0; i < pages[currentPage].canType; ++i) {
-                    rawValue |= (canMsg.data[pages[currentPage].canOffset + i]
-                                 << (8 * i));
+                    rawValue |= (canMsg.data[pages[currentPage].canOffset + i] << (8 * i));
                 }
                 sensorValue = rawValue * pages[currentPage].canMultiplier;
             }
@@ -58,10 +57,8 @@ void loop() {
     char valueStr[10];
     while (true) {
         ArduinoOTA.handle();
-        snprintf(valueStr, sizeof(valueStr), pages[currentPage].format,
-                 sensorValue);
-        printValue(valueStr, pages[currentPage].title,
-                   pages[currentPage].fontSize, pages[currentPage].posY);
+        snprintf(valueStr, sizeof(valueStr), pages[currentPage].format, sensorValue);
+        printValue(valueStr, pages[currentPage].title, pages[currentPage].fontSize, pages[currentPage].posY);
         if (gestureDetected) {
             // check if enough time has passed since last debounce
             if ((millis() - lastDebounceTime) > debounceDelay) {
@@ -70,21 +67,17 @@ void loop() {
                 uint8_t gesture = readGesture();
 
                 if (gesture == 4) {  // swipe left
-                    currentPage =
-                        (currentPage + 1) % (sizeof(pages) / sizeof(pages[0]));
+                    currentPage = (currentPage + 1) % (sizeof(pages) / sizeof(pages[0]));
                 } else if (gesture == 3) {  // swipe right
                     currentPage =
-                        (currentPage - 1 + sizeof(pages) / sizeof(pages[0])) %
-                        (sizeof(pages) / sizeof(pages[0]));
-                } else if (gesture == 1 &&
-                           pages[currentPage].verticalSwipe) {  // swipe up
+                        (currentPage - 1 + sizeof(pages) / sizeof(pages[0])) % (sizeof(pages) / sizeof(pages[0]));
+                } else if (gesture == 1 && pages[currentPage].verticalSwipe) {  // swipe up
                     struct can_frame frame;
                     frame.can_id = pages[currentPage].swipeUpId;
                     frame.can_dlc = 1;
                     frame.data[0] = 0x01;
                     mcp2515.sendMessage(&frame);
-                } else if (gesture == 2 &&
-                           pages[currentPage].verticalSwipe) {  // swipe down
+                } else if (gesture == 2 && pages[currentPage].verticalSwipe) {  // swipe down
                     struct can_frame frame;
                     frame.can_id = pages[currentPage].swipeDownId;
                     frame.can_dlc = 1;
