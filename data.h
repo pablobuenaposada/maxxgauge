@@ -2,7 +2,7 @@
 #define DATA_H
 
 struct Page {
-    char title[10];
+    char title[11];
     int fontSize;
     int posY;
     int canId;
@@ -10,9 +10,12 @@ struct Page {
     int canType;
     float canMultiplier;
     char format[5];
+    bool verticalSwipe;
+    int swipeUpId;
+    int swipeDownId;
 };
 
-extern Page pages[6];
+extern Page pages[8];
 extern int currentPage;
 extern unsigned long debounceDelay;
 extern unsigned long lastDebounceTime;
