@@ -45,17 +45,11 @@ void loop() {
                     currentPage =
                         (currentPage - 1 + sizeof(pages) / sizeof(pages[0])) % (sizeof(pages) / sizeof(pages[0]));
                 } else if (gesture == 1 && pages[currentPage].verticalSwipe) {  // swipe up
-                    struct can_frame frame;
-                    frame.can_id = pages[currentPage].swipeUpId;
-                    frame.can_dlc = 1;
-                    frame.data[0] = 0x01;
-                    mcp2515.sendMessage(&frame);
+                    uint8_t data[] = {0x01};
+                    send(pages[currentPage].swipeUpId, data, 1);
                 } else if (gesture == 2 && pages[currentPage].verticalSwipe) {  // swipe down
-                    struct can_frame frame;
-                    frame.can_id = pages[currentPage].swipeDownId;
-                    frame.can_dlc = 1;
-                    frame.data[0] = 0x01;
-                    mcp2515.sendMessage(&frame);
+                    uint8_t data[] = {0x01};
+                    send(pages[currentPage].swipeDownId, data, 1);
                 }
             }
         }

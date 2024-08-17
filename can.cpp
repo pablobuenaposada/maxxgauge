@@ -27,3 +27,13 @@ void setCAN() {
     mcp2515.setNormalMode();
     xTaskCreate(canTask, "CAN Task", 4096, NULL, 1, NULL);
 }
+
+void send(int id, uint8_t data[], int length) {
+    struct can_frame frame;
+    frame.can_id = id;
+    frame.can_dlc = length;
+    for (int i = 0; i < length; i++) {
+        frame.data[i] = data[i];
+    }
+    mcp2515.sendMessage(&frame);
+}
