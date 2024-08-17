@@ -1,3 +1,4 @@
+#include "can.h"
 #include "data.h"
 #include "ota.h"
 #include "screen.h"
@@ -7,8 +8,7 @@
 // tft_rst:nada tft_bl:3v touch_sda:d21 touch_scl:d22 touch_int:d25
 // touch_rst:nada mcp2515 cs:d5 miso:d19 mosi:d23 sck:d18 int:nada
 
-#include <SPI.h>      // Library for using SPI Communication
-#include <mcp2515.h>  // Library for using CAN Communication (https://github.com/autowp/arduino-mcp2515/)
+#include <SPI.h>  // Library for using SPI Communication
 
 #define CS_PIN 5  // Define the SPI CS pin as D5
 // #define INT_PIN 33            // Define the interrupt pin as D21
@@ -16,7 +16,6 @@
 #define MOSI_PIN 23  // Define the SPI MOSI pin as D23
 #define MISO_PIN 19  // Define the SPI MISO pin as D19
 
-MCP2515 mcp2515(CS_PIN);  // SPI CS Pin 10
 volatile float sensorValue = 0.0;
 
 void canTask(void *pvParameters) {
@@ -44,12 +43,7 @@ void setup() {
     SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN,
               CS_PIN);  // Initialize SPI bus with custom pins
     // pinMode(INT_PIN, INPUT);
-
-    mcp2515.reset();
-    mcp2515.setBitrate(CAN_500KBPS,
-                       MCP_8MHZ);  // Set CAN speed to 500KBPS and Clock to 8MHz
-    mcp2515.setNormalMode();       // Set CAN to normal mode
-
+    setCAN();
     xTaskCreate(canTask, "CAN Task", 4096, NULL, 1, NULL);
 }
 
