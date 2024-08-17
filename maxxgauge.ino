@@ -16,35 +16,13 @@
 #define MOSI_PIN 23  // Define the SPI MOSI pin as D23
 #define MISO_PIN 19  // Define the SPI MISO pin as D19
 
-volatile float sensorValue = 0.0;
-
-void canTask(void *pvParameters) {
-    struct can_frame canMsg;
-    while (true) {
-        if (mcp2515.readMessage(&canMsg) == MCP2515::ERROR_OK) {
-            if (canMsg.can_id == pages[currentPage].canId) {
-                int rawValue = 0;
-                for (int i = 0; i < pages[currentPage].canType; ++i) {
-                    rawValue |= (canMsg.data[pages[currentPage].canOffset + i] << (8 * i));
-                }
-                sensorValue = rawValue * pages[currentPage].canMultiplier;
-            }
-        }
-        vTaskDelay(1);
-    }
-}
-
 void setup() {
+    Serial.begin(9600);
     setOTA();
     setTouch();
     setScreen();
-    Serial.begin(9600);
-
-    SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN,
-              CS_PIN);  // Initialize SPI bus with custom pins
-    // pinMode(INT_PIN, INPUT);
+    SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, CS_PIN);
     setCAN();
-    xTaskCreate(canTask, "CAN Task", 4096, NULL, 1, NULL);
 }
 
 void loop() {
