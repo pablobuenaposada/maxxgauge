@@ -1,14 +1,23 @@
 #include "can.h"
 
+#include <Arduino.h>
+
 #define CS_PIN 5
+#define CAN_TIMEOUT 1000
 
 MCP2515 mcp2515(CS_PIN);
 volatile float sensorValue = 0.0;
+volatile bool canError = false;
 
 void canTask(void *pvParameters) {
     struct can_frame canMsg;
+    unsigned long lastCanMessageTime = millis();
+
     while (true) {
         if (mcp2515.readMessage(&canMsg) == MCP2515::ERROR_OK) {
+            canError = false;
+            lastCanMessageTime = millis();
+
             if (canMsg.can_id == pages[currentPage].canId) {
                 int rawValue = 0;
                 for (int i = 0; i < pages[currentPage].canType; ++i) {
@@ -16,6 +25,11 @@ void canTask(void *pvParameters) {
                 }
                 sensorValue = rawValue * pages[currentPage].canMultiplier;
             }
+        }
+
+        // Check for CAN bus inactivity
+        if (millis() - lastCanMessageTime > CAN_TIMEOUT) {
+            canError = true;
         }
         vTaskDelay(1);
     }

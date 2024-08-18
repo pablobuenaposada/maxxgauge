@@ -29,30 +29,34 @@ void loop() {
     char valueStr[10];
     while (true) {
         ArduinoOTA.handle();
-        snprintf(valueStr, sizeof(valueStr), pages[currentPage].format, sensorValue);
-        printValue(valueStr, pages[currentPage].title, pages[currentPage].fontSize, pages[currentPage].posY,
-                   pages[currentPage].verticalSwipe);
-        if (gestureDetected) {
-            // check if enough time has passed since last debounce
-            if ((millis() - lastDebounceTime) > debounceDelay) {
-                lastDebounceTime = millis();
-                gestureDetected = false;
-                uint8_t gesture = readGesture();
+        if (canError) {
+            noConnection();
+        } else {
+            snprintf(valueStr, sizeof(valueStr), pages[currentPage].format, sensorValue);
+            printValue(valueStr, pages[currentPage].title, pages[currentPage].fontSize, pages[currentPage].posY,
+                       pages[currentPage].verticalSwipe);
 
-                if (gesture == 4) {  // swipe left
-                    currentPage = (currentPage + 1) % (sizeof(pages) / sizeof(pages[0]));
-                } else if (gesture == 3) {  // swipe right
-                    currentPage =
-                        (currentPage - 1 + sizeof(pages) / sizeof(pages[0])) % (sizeof(pages) / sizeof(pages[0]));
-                } else if (gesture == 1 && pages[currentPage].verticalSwipe) {  // swipe up
-                    uint8_t data[] = {0x01};
-                    send(pages[currentPage].swipeUpId, data, 1);
-                } else if (gesture == 2 && pages[currentPage].verticalSwipe) {  // swipe down
-                    uint8_t data[] = {0x01};
-                    send(pages[currentPage].swipeDownId, data, 1);
+            if (gestureDetected) {
+                // check if enough time has passed since last debounce
+                if ((millis() - lastDebounceTime) > debounceDelay) {
+                    lastDebounceTime = millis();
+                    gestureDetected = false;
+                    uint8_t gesture = readGesture();
+
+                    if (gesture == 4) {  // swipe left
+                        currentPage = (currentPage + 1) % (sizeof(pages) / sizeof(pages[0]));
+                    } else if (gesture == 3) {  // swipe right
+                        currentPage =
+                            (currentPage - 1 + sizeof(pages) / sizeof(pages[0])) % (sizeof(pages) / sizeof(pages[0]));
+                    } else if (gesture == 1 && pages[currentPage].verticalSwipe) {  // swipe up
+                        uint8_t data[] = {0x01};
+                        send(pages[currentPage].swipeUpId, data, 1);
+                    } else if (gesture == 2 && pages[currentPage].verticalSwipe) {  // swipe down
+                        uint8_t data[] = {0x01};
+                        send(pages[currentPage].swipeDownId, data, 1);
+                    }
                 }
             }
         }
-        // delay(500);
     }
 }

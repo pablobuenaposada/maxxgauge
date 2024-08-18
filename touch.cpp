@@ -11,19 +11,10 @@ volatile bool gestureDetected = false;
 
 void IRAM_ATTR handleTouchInterrupt() { gestureDetected = true; }
 
-void resetSensor() {
-    // pinMode(TOUCH_RST_PIN, OUTPUT);
-    // digitalWrite(TOUCH_RST_PIN, LOW);
-    delay(100);
-    // digitalWrite(TOUCH_RST_PIN, HIGH);
-    delay(100);
-}
-
 void setTouch() {
     Wire.begin(TOUCH_SDA_PIN, TOUCH_SCL_PIN);
     pinMode(TOUCH_INT_PIN, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(TOUCH_INT_PIN), handleTouchInterrupt, FALLING);
-    resetSensor();
 }
 
 uint8_t readGesture() {

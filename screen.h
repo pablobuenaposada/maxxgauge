@@ -8,5 +8,6 @@
 
 void setScreen();
 void printValue(char *value, char *title, int fontSize, int posY, bool arrows);
+void noConnection();
 
 #endif

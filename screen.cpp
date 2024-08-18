@@ -10,6 +10,7 @@ OpenFontRender render;
 
 char lastValue[10] = "";
 char lastTitle[11] = "";
+char lastNoConnection = false;
 
 void setScreen() {
     tft.init();
@@ -19,7 +20,23 @@ void setScreen() {
     tft.fillScreen(backgroundColor);
 }
 
+void noConnection() {
+    if (!lastNoConnection) {
+        tft.fillRect(0, 0, 240, 240, backgroundColor);
+        render.setFontColor(TFT_RED);
+        render.setFontSize(25);
+        render.setCursor(tft.width() / 2, 90);
+        render.cprintf("NO CANBUS");
+        render.setCursor(tft.width() / 2, 130);
+        render.cprintf("CONNECTION");
+        lastNoConnection = true;
+        strcpy(lastValue, "");
+        strcpy(lastTitle, "");
+    }
+}
+
 void printValue(char *value, char *title, int fontSize, int posY, bool arrows) {
+    lastNoConnection = false;
     if (strcmp(value, lastValue) != 0) {
         render.setFontColor(valueColor);
         render.setFontSize(fontSize);
