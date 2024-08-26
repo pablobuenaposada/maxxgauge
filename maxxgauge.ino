@@ -1,20 +1,21 @@
+#include <SPI.h>  // Library for using SPI Communication
+
 #include "can.h"
 #include "data.h"
 #include "ota.h"
 #include "screen.h"
 #include "touch.h"
-// creo que estoy usando vspi
-// pantalla tft_miso:nada tft_mosi:d13 tft_sclk:d14 tft_cs:d4 tft_dc:d32
-// tft_rst:nada tft_bl:3v touch_sda:d21 touch_scl:d22 touch_int:d25
-// touch_rst:nada mcp2515 cs:d5 miso:d19 mosi:d23 sck:d18 int:nada
 
-#include <SPI.h>  // Library for using SPI Communication
-
-#define CS_PIN 5  // Define the SPI CS pin as D5
-// #define INT_PIN 33            // Define the interrupt pin as D21
+#define CS_PIN 5     // Define the SPI CS pin as D5
 #define SCK_PIN 18   // Define the SPI SCK pin as D18
 #define MOSI_PIN 23  // Define the SPI MOSI pin as D23
 #define MISO_PIN 19  // Define the SPI MISO pin as D19
+
+// SCHEMATICS
+// 12v to 5v adapter: 5v->vin gnd->gnd
+// Screen waveshare 1.28" 240x240 touch lcd: vcc->3v3 gnd->gnd mosi->d13 sclk->d14 cs->d4 dc->d32 bl->3v3 sda->d21
+// scl->d22 int->d25
+// CAN bus shield MCP2515: vcc->vin gnd->gnd cs->d5 so->d19 si->d23 sck->d18
 
 void setup() {
     Serial.begin(9600);
