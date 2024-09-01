@@ -52,8 +52,14 @@ void loop() {
                     } else if (gesture == 1 && pages[currentPage].verticalSwipe) {  // swipe up
                         uint8_t data[] = {0x01};
                         send(pages[currentPage].swipeUpId, data, 1);
+                        data[0] = 0x00;
+                        delay(500);
+                        send(pages[currentPage].swipeUpId, data, 1);
                     } else if (gesture == 2 && pages[currentPage].verticalSwipe) {  // swipe down
                         uint8_t data[] = {0x01};
+                        send(pages[currentPage].swipeDownId, data, 1);
+                        data[0] = 0x00;
+                        delay(500);
                         send(pages[currentPage].swipeDownId, data, 1);
                     }
                 }
