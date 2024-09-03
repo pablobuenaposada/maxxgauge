@@ -35,6 +35,17 @@ void noConnection() {
     }
 }
 
+const char* translate(float value, const std::map<int, String>& translation) {
+    int intValue = static_cast<int>(value);
+
+    auto it = translation.find(intValue);
+    if (it != translation.end()) {
+        return it->second.c_str();
+    } else {
+        
+    }
+}
+
 void printValue(char *value, char *title, int fontSize, int posY, bool arrows) {
     lastNoConnection = false;
     if (strcmp(value, lastValue) != 0) {

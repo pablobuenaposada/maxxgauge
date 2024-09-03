@@ -1,4 +1,4 @@
-#include <SPI.h>  // Library for using SPI Communication
+#include <SPI.h>
 
 #include "can.h"
 #include "data.h"
@@ -6,10 +6,10 @@
 #include "screen.h"
 #include "touch.h"
 
-#define CS_PIN 5     // Define the SPI CS pin as D5
-#define SCK_PIN 18   // Define the SPI SCK pin as D18
-#define MOSI_PIN 23  // Define the SPI MOSI pin as D23
-#define MISO_PIN 19  // Define the SPI MISO pin as D19
+#define CS_PIN 5
+#define SCK_PIN 18
+#define MOSI_PIN 23
+#define MISO_PIN 19
 
 // SCHEMATICS
 // 12v to 5v adapter: 5v->vin gnd->gnd
@@ -33,6 +33,7 @@ void loop() {
         if (canError) {
             noConnection();
         } else {
+            
             snprintf(valueStr, sizeof(valueStr), pages[currentPage].format, sensorValue);
             printValue(valueStr, pages[currentPage].title, pages[currentPage].fontSize, pages[currentPage].posY,
                        pages[currentPage].verticalSwipe);
