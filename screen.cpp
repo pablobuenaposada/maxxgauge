@@ -1,8 +1,8 @@
 #include "screen.h"
 
 const int backgroundColor = TFT_BLACK;
-const int valueColor = 0xFD20;
-const int titleColor = TFT_CYAN;
+const int valueColor = 0xF9E3;
+const int titleColor = 0xDBC0;
 const int arrowColor = TFT_GOLD;
 
 TFT_eSPI tft = TFT_eSPI();

@@ -2,6 +2,7 @@
 #define DATA_H
 
 #include <WString.h>
+
 #include <map>
 
 struct Page {
