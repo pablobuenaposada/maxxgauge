@@ -33,7 +33,12 @@ void loop() {
         if (canError) {
             noConnection();
         } else {
-            snprintf(valueStr, sizeof(valueStr), pages[currentPage].format, sensorValue);
+            if (pages[currentPage].isInteger){
+              snprintf(valueStr, sizeof(valueStr), pages[currentPage].format, int(sensorValue));
+            }
+            else{
+              snprintf(valueStr, sizeof(valueStr), pages[currentPage].format, sensorValue);
+            }
             printValue(valueStr, pages[currentPage].title, pages[currentPage].fontSize, pages[currentPage].posY,
                        pages[currentPage].verticalSwipe);
 

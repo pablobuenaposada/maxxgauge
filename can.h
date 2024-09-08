@@ -6,7 +6,7 @@
 #include "data.h"
 
 extern MCP2515 mcp2515;
-extern volatile int sensorValue;
+extern volatile float sensorValue;
 extern volatile bool canError;
 extern void setCAN();
 extern void send(int id, uint8_t data[], int length);

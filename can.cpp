@@ -6,7 +6,7 @@
 #define CAN_TIMEOUT 1000
 
 MCP2515 mcp2515(CS_PIN);
-volatile int sensorValue = 0;
+volatile float sensorValue = 0;
 volatile bool canError = false;
 
 void canTask(void *pvParameters) {

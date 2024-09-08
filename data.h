@@ -9,6 +9,7 @@ struct Page {
     int canOffset;
     int canType;
     float canMultiplier;
+    bool isInteger;
     char format[5];
     bool verticalSwipe;
     int swipeUpId;
