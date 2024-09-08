@@ -1,6 +1,9 @@
 #ifndef DATA_H
 #define DATA_H
 
+#include <WString.h>
+#include <map>
+
 struct Page {
     char title[11];
     int fontSize;
@@ -14,11 +17,14 @@ struct Page {
     bool verticalSwipe;
     int swipeUpId;
     int swipeDownId;
+    std::map<int, String> translation;
 };
 
 extern Page pages[8];
 extern int currentPage;
 extern unsigned long debounceDelay;
 extern unsigned long lastDebounceTime;
+
+const char* translate(float value, const std::map<int, String>& translation);
 
 #endif

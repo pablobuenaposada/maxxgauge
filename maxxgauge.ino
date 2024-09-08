@@ -34,7 +34,8 @@ void loop() {
             noConnection();
         } else {
             if (pages[currentPage].isInteger){
-              snprintf(valueStr, sizeof(valueStr), pages[currentPage].format, int(sensorValue));
+              const char* translatedValue = translate(sensorValue, pages[currentPage].translation);
+              sprintf(valueStr, "%s", translatedValue);
             }
             else{
               snprintf(valueStr, sizeof(valueStr), pages[currentPage].format, sensorValue);
